@@ -50,6 +50,8 @@ if __name__ == '__main__':
         sys.exit(app.exec_())
     # creates instance of calculator app and runs on init
     else:
+        # TODO
+        #   change event loop to exit plots on app exit
         LcoeCalculator(sys.argv)
 
 
