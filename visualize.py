@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import numpy as np
+import time
 
 
 def plot(x_axis, y_axis, labels):
@@ -21,10 +22,11 @@ def plot(x_axis, y_axis, labels):
     style_colors = ['black', 'blue', 'green', 'red', 'orange']  # for CSS pallet
 
     lines_of_plot = np.shape(y_axis)
+    figure = plt.figure(figsize=(8, 5))
 
-    fig = plt.figure()
     ax = plt.axes()
-    fig.add_axes(ax)
+    figure.add_axes(ax)
+    plt.ion()
 
     for line in range(lines_of_plot[0]):
         # add plots line-wise to axis with label and format style
@@ -36,7 +38,7 @@ def plot(x_axis, y_axis, labels):
                 markersize=markers_size[line])
 
     # add legend and labels to plot
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.07),
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
               fancybox=True, ncol=lines_of_plot[0])
 
     plt.ylabel('LCOE [€/kWh]', fontweight='bold')
@@ -55,7 +57,6 @@ def plot(x_axis, y_axis, labels):
     # show plot
     plt.show(block=False) # program execution continues
     # plt.show(block=True)
+    figure.tight_layout()
 
-    # plt.close()
-    # plt.tight_layout()
-    return fig
+    return 0

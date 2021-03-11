@@ -16,6 +16,8 @@ import sensitivity as sst
 import visualize as vs
 import calculate as cc
 
+import matplotlib.pyplot as plt
+
 from PyQt5 import QtWidgets
 
 
@@ -67,14 +69,20 @@ class MainWindow(QMainWindow):
 
         # execution button
         self.pushButton = QPushButton(self.centralwidget)
+        # self.exitButton = QPushButton(self.centralwidget)
 
         # plot figure
-        self.fig
+        self.fig_active = None
+        self.fig_handles = []
 
         # call of setup for ui objects, default text of lines and window call
         self.setup_ui()
         self.retranslate_ui()
         self.show()
+
+    def set_fig(self, figure):
+        # self.fig_active = figure
+        self.fig_handles.append(figure)
 
     def setup_ui(self):
         # if not MainWindow.objectName():
@@ -224,8 +232,11 @@ class MainWindow(QMainWindow):
         # self.slider_interval.valueChanged.connect(self.interval_change)
 
         # button layout
-        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setObjectName("pushButton")
         self.pushButton.setGeometry(QRect(150, 330, 81, 41))
+
+        # self.exitButton.setObjectName("pushButton")
+        # self.exitButton.setGeometry(QRect(150, 330, 81, 61))
 
         # button action
         self.pushButton.clicked.connect(self.button_execution)
@@ -252,20 +263,35 @@ class MainWindow(QMainWindow):
         self.label_variation.setText("Parameter Variation [%] :")
         self.lineEdit_variation.setText("30")
         self.label_interval.setText("Plot Interval :")
-        self.lineEdit_interval.setText("0.5")
+        self.lineEdit_interval.setText("2")     # also works with 0.5
         self.pushButton.setText("PushButton")
 
     def button_execution(self):
-        print('Hello Dude')
-        # if self.fig is not None:
-        #     self.fig.close()
 
         calc_inputs, sens_inputs = self.get_field_inputs()
         variation_parameters, lcoe = sst.calculate_lcoes(calc_inputs,
                                                          sens_inputs[0],
                                                          sens_inputs[1])
 
+        # self.set_fig(
         vs.plot(variation_parameters, lcoe, cc.LCOE_ARGUMENTS)
+        # )
+
+    def close_all(self):
+        # TODO:
+        #  Function call should be last statement of app event loop but
+        #  currently this is not implemented. Therefore figures have to be
+        #  closed manually before PyQt event loop is closed and function call is
+        #  executed.
+        """
+        call closes all created plot figures
+        :return:
+        """
+        for handle in self.fig_handles:
+            plt.close(handle)
+
+        self.fig_handles[:] = []
+
 
     # def variation_change(self):
     #     my_value = str(self.slider_parameter.value())
@@ -278,7 +304,6 @@ class MainWindow(QMainWindow):
     #     self.lineEdit_interval.setText(my_value)
 
     def get_field_inputs(self):
-
         calculation_inputs = [float(self.lineEdit_capex.text()),
                               float(self.lineEdit_interest.text()),
                               float(self.lineEdit_repay.text()),
