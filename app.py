@@ -10,7 +10,7 @@ class LcoeCalculator(QApplication):
         self.ui = MainWindow()
 
         app.exec_()
-        self.ui.close_all()
+		self.ui.button_close_app()
         sys.exit()
         QApplication.processEvents()
 

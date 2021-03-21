@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import numpy as np
-import time
 
 
 def plot(x_axis, y_axis, labels):
@@ -30,7 +29,8 @@ def plot(x_axis, y_axis, labels):
 
     for line in range(lines_of_plot[0]):
         # add plots line-wise to axis with label and format style
-        ax.plot(x_axis, y_axis[line, :], label=labels[line],
+        ax.plot(x_axis, y_axis[line, :],
+                label=labels[line],
                 color=mcolors.CSS4_COLORS[style_colors[line]],
                 linestyle=style_lines[line],
                 marker=style_markers[line],
@@ -59,4 +59,4 @@ def plot(x_axis, y_axis, labels):
     # plt.show(block=True)
     figure.tight_layout()
 
-    return 0
+    return figure

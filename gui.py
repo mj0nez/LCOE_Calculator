@@ -9,7 +9,6 @@
 ################################################################################
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import sensitivity as sst
@@ -69,7 +68,8 @@ class MainWindow(QMainWindow):
 
         # execution button
         self.pushButton = QPushButton(self.centralwidget)
-        # self.exitButton = QPushButton(self.centralwidget)
+        self.exitButton = QPushButton(self.centralwidget)
+        self.exitAllButton = QPushButton(self.centralwidget)
 
         # plot figure
         self.fig_active = None
@@ -232,14 +232,19 @@ class MainWindow(QMainWindow):
         # self.slider_interval.valueChanged.connect(self.interval_change)
 
         # button layout
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.setGeometry(QRect(150, 330, 81, 41))
+        self.pushButton.setObjectName("Generate Plot")
+        self.pushButton.setGeometry(QRect(50, 330, 81, 41))
 
-        # self.exitButton.setObjectName("pushButton")
-        # self.exitButton.setGeometry(QRect(150, 330, 81, 61))
+        self.exitButton.setObjectName("Close all Plots")
+        self.exitButton.setGeometry(QRect(150, 330, 81, 41))
+
+        self.exitAllButton.setObjectName("Close App")
+        self.exitAllButton.setGeometry(QRect(250, 330, 81, 41))
 
         # button action
-        self.pushButton.clicked.connect(self.button_execution)
+        self.pushButton.clicked.connect(self.button_plot)
+        self.exitButton.clicked.connect(self.button_close)
+        self.exitAllButton.clicked.connect(self.button_close_app)
 
         self.retranslate_ui()
 
@@ -264,34 +269,27 @@ class MainWindow(QMainWindow):
         self.lineEdit_variation.setText("30")
         self.label_interval.setText("Plot Interval :")
         self.lineEdit_interval.setText("2")     # also works with 0.5
-        self.pushButton.setText("PushButton")
+        self.pushButton.setText("Plot")
+        self.exitButton.setText("Close \nall Figures")
+        self.exitAllButton.setText("Exit App")
 
-    def button_execution(self):
+    def button_plot(self):
 
         calc_inputs, sens_inputs = self.get_field_inputs()
         variation_parameters, lcoe = sst.calculate_lcoes(calc_inputs,
                                                          sens_inputs[0],
                                                          sens_inputs[1])
 
-        # self.set_fig(
-        vs.plot(variation_parameters, lcoe, cc.LCOE_ARGUMENTS)
-        # )
+        fig_plot = vs.plot(variation_parameters, lcoe, cc.LCOE_ARGUMENTS)
+        self.set_fig(fig_plot)
 
-    def close_all(self):
-        # TODO:
-        #  Function call should be last statement of app event loop but
-        #  currently this is not implemented. Therefore figures have to be
-        #  closed manually before PyQt event loop is closed and function call is
-        #  executed.
-        """
-        call closes all created plot figures
-        :return:
-        """
-        for handle in self.fig_handles:
-            plt.close(handle)
+    def button_close(self):
+        for fig in self.fig_handles:
+            plt.close(fig)
 
-        self.fig_handles[:] = []
-
+    def button_close_app(self):
+        self.button_close()
+        sys.exit()
 
     # def variation_change(self):
     #     my_value = str(self.slider_parameter.value())
@@ -302,7 +300,6 @@ class MainWindow(QMainWindow):
     # def interval_change(self):
     #     my_value = str(self.slider_interval.value())
     #     self.lineEdit_interval.setText(my_value)
-
     def get_field_inputs(self):
         calculation_inputs = [float(self.lineEdit_capex.text()),
                               float(self.lineEdit_interest.text()),
