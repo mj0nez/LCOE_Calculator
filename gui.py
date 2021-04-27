@@ -226,7 +226,7 @@ class MainWindow(QMainWindow):
 
     def retranslate_ui(self):
         # set text in ui, labels and text lines
-        self.setWindowTitle("MainWindow")
+        self.setWindowTitle("LCOE_sensitivities")
         self.label_group.setTitle("")
         self.label_capex.setText("CAPEX [€] :")
         self.lineEdit_capex.setText("1500000")
