@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'PyQt5_TestLayoutzcqxhy.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+##  gui created with: Qt User Interface Compiler version 5.15.2
 ##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-import sys
+
 import sensitivity as sst
 import visualize as vs
 import calculate as cc
 
+import sys
 import matplotlib.pyplot as plt
-
-from PyQt5 import QtWidgets
 
 
 class MainWindow(QMainWindow):
@@ -58,10 +55,6 @@ class MainWindow(QMainWindow):
         self.label_interval = QLabel(self.formLayoutWidget)
         self.lineEdit_interval = QLineEdit(self.formLayoutWidget)
 
-        # sliders
-        # self.slider_parameter = QSlider(self.centralwidget)
-        # self.slider_interval = QSlider(self.centralwidget)
-
         # separation lines between input, output and sensitivity
         self.line_2 = QFrame(self.formLayoutWidget)
         self.line = QFrame(self.formLayoutWidget)
@@ -81,12 +74,9 @@ class MainWindow(QMainWindow):
         self.show()
 
     def set_fig(self, figure):
-        # self.fig_active = figure
         self.fig_handles.append(figure)
 
     def setup_ui(self):
-        # if not MainWindow.objectName():
-        #     MainWindow.setObjectName(u"MainWindow")
         self.resize(400, 400)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -189,47 +179,12 @@ class MainWindow(QMainWindow):
 
         self.formLayout.setWidget(5, QFormLayout.LabelRole, self.line_2)
 
-        # self.slider_parameter.setObjectName(u"slider_parameter")
-        # self.slider_parameter.setGeometry(QRect(390, 375, 121, 25))
-        # sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # sizePolicy2.setHorizontalStretch(0)
-        # sizePolicy2.setVerticalStretch(0)
-        # sizePolicy2.setHeightForWidth(
-        #     self.slider_parameter.sizePolicy().hasHeightForWidth())
-        # self.slider_parameter.setSizePolicy(sizePolicy2)
-        # self.slider_parameter.setAutoFillBackground(True)
-        # self.slider_parameter.setMinimum(0)
-        # self.slider_parameter.setMaximum(100)
-        # self.slider_parameter.setPageStep(5)
-        # self.slider_parameter.setSliderPosition(30)
-        # self.slider_parameter.setTracking(True)
-        # self.slider_parameter.setOrientation(Qt.Horizontal)
-        # self.slider_parameter.setTickPosition(QSlider.NoTicks)
-        #
-        # self.slider_interval.setObjectName(u"slider_interval")
-        # self.slider_interval.setGeometry(QRect(390, 405, 121, 25))
-        # sizePolicy2.setHeightForWidth(
-        #     self.slider_interval.sizePolicy().hasHeightForWidth())
-        # self.slider_interval.setSizePolicy(sizePolicy2)
-        # self.slider_interval.setAutoFillBackground(True)
-        # self.slider_interval.setMinimum(0)
-        # self.slider_interval.setMaximum(100)
-        # self.slider_interval.setPageStep(5)
-        # self.slider_interval.setValue(10)
-        # self.slider_interval.setSliderPosition(10)
-        # self.slider_interval.setTracking(True)
-        # self.slider_interval.setOrientation(Qt.Horizontal)
-        # self.slider_interval.setTickPosition(QSlider.NoTicks)
         self.setCentralWidget(self.centralwidget)
         self.menubar.setObjectName("menubar")
         self.menubar.setGeometry(QRect(0, 0, 540, 21))
         self.setMenuBar(self.menubar)
         self.statusbar.setObjectName("statusbar")
         self.setStatusBar(self.statusbar)
-
-        # # connect sliders to text lines for output
-        # self.slider_parameter.valueChanged.connect(self.variation_change)
-        # self.slider_interval.valueChanged.connect(self.interval_change)
 
         # button layout
         self.pushButton.setObjectName("Generate Plot")
@@ -291,15 +246,6 @@ class MainWindow(QMainWindow):
         self.button_close()
         sys.exit()
 
-    # def variation_change(self):
-    #     my_value = str(self.slider_parameter.value())
-    #     self.lineEdit_variation.setText(my_value)
-    #     # reset max value of interval size
-    #     self.slider_interval.setMaximum(self.slider_parameter.value())
-    #
-    # def interval_change(self):
-    #     my_value = str(self.slider_interval.value())
-    #     self.lineEdit_interval.setText(my_value)
     def get_field_inputs(self):
         calculation_inputs = [float(self.lineEdit_capex.text()),
                               float(self.lineEdit_interest.text()),
@@ -313,7 +259,11 @@ class MainWindow(QMainWindow):
         return [calculation_inputs, sensitivity_inputs]
 
 
-if __name__ == '__main__':
+def start_app():
     app = QApplication(sys.argv)
     ui = MainWindow()
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    start_app()
