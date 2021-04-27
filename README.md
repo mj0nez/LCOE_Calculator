@@ -3,6 +3,7 @@
 A gui based application to visualize the sensitivity for levelized-cost-of
 -electricity with python.
 
+![alt text](sample.png)
 ----------
 
 ## Requirements:
